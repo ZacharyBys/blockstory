@@ -27,7 +27,37 @@ App = {
       // Connect provider to interact with contract
       App.contracts.StoryBook.setProvider(App.web3Provider);
 
+      App.listenForEvents();
+
       return App.render();
+    });
+  },
+
+  contribute: function() {
+    var storyId = $('#storySelect').val();
+    var storyText = $('#storyText').val();
+
+    App.contracts.StoryBook.deployed().then(function(instance) {
+      return instance.contributeToStory(storyId, storyText, { from: App.account });
+    }).then(function(result) {
+      // Wait for votes to update
+      $("#content").hide();
+      $("#loader").show();
+    }).catch(function(err) {
+      console.error(err);
+    });
+  },
+
+  listenForEvents: function() {
+    App.contracts.StoryBook.deployed().then(function(instance) {
+      instance.contributeEvent({}, {
+        fromBlock: 0,
+        toBlock: 'latest'
+      }).watch(function(error, event) {
+        console.log("event triggered", event)
+        // Reload when a new vote is recorded
+        App.render();
+      });
     });
   },
 
@@ -55,6 +85,9 @@ App = {
       var storiesResults = $("#storiesResults");
       storiesResults.empty();
 
+      var storySelect = $("#storySelect");
+      storySelect.empty();
+
       for (var i = 1; i <= storiesCount; i++) {
         storybookInstance.stories(i).then(function(story) {
           var id = story[0];
@@ -63,6 +96,9 @@ App = {
 
           var storyTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + body + "</td></tr>"
           storiesResults.append(storyTemplate);
+
+          var storyOption = "<option value='" + id + "' >" + name + "</ option>"
+          storySelect.append(storyOption);
         });
       }
 

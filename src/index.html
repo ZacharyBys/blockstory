@@ -31,6 +31,18 @@
               <tbody id="storiesResults">
               </tbody>
             </table>
+            <form onSubmit="App.contribute(); return false;">
+              <div class="form-group">
+                <label for="storySelect">Select Story</label>
+                <select class="form-control" id="storySelect">
+                </select>
+                <label for="storyText">Add to Story</label>
+                <input class="form-control" id="storyText">
+                </input>
+              </div>
+              <button type="submit" class="btn btn-primary">Contribute</button>
+              <hr />
+            </form>
             <hr/>
             <p id="accountAddress" class="text-center"></p>
           </div>
