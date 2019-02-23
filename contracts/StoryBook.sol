@@ -10,6 +10,8 @@ contract StoryBook {
 
 	mapping(uint => Story) public stories;
 
+	mapping(address => bool) public contributors;
+
 	uint public storiesCount;
 
 	function addStory (string memory _name) private {
