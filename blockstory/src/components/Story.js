@@ -19,10 +19,20 @@ class Story extends React.Component {
         await this.props.contributeToStory(story.id, contribution);
         const newStory = await this.props.refreshStory(story.id)
         this.setState({ story: newStory }, this.resetForm)
+        await this.sendToTwist()
     }
 
     resetForm = () => {
         this.setState({ contribution: '' })
+    }
+
+    async sendToTwist() {
+        const { story } = this.state;
+        console.log(story.body)
+        fetch('http://127.0.0.1:5000/' + encodeURIComponent(722580) + '/' + encodeURIComponent(story.body), {
+            method: 'GET',
+            mode: 'no-cors',
+        })
     }
 
     render() {
