@@ -23,7 +23,7 @@ class Stories extends React.Component {
                 </Header>
                 <List divided relaxed>
                     {
-                        stories.map((story) => <StoryPreview key={story.id} story={story}/>)
+                        stories.map((story) => <StoryPreview key={story.id} story={story} characters={story.body.length}/>)
                     }
                 </List>
             </div>

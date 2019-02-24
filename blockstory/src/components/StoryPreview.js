@@ -10,6 +10,7 @@ const StoryPreview = (props) => {
         }}>
             <List.Content>
                 <List.Header>{props.story.title}</List.Header>
+                <List.Description>Characters: {props.characters}</List.Description>
             </List.Content>
         </List.Item>
     )
