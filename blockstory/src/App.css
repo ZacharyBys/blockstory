@@ -1,33 +1,117 @@
-.App {
-  text-align: center;
+.fade-in {
+  animation: fadein 1s;
+  -moz-animation: fadein 1s; /* Firefox */
+  -webkit-animation: fadein 1s; /* Safari and Chrome */
+  -o-animation: fadein 1s; /* Opera */
+}
+@keyframes fadein {
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-moz-keyframes fadein { /* Firefox */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
+}
+@-o-keyframes fadein { /* Opera */
+  from {
+      opacity:0;
+  }
+  to {
+      opacity: 1;
+  }
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+@import url('https://fonts.googleapis.com/css?family=Abhaya+Libre|Lato:300i|Mate:400i|Montserrat|Pacifico');
+
+body {
+  background: linear-gradient(#1a8cff 0%,#1AA8FF 95%);
+  color: white !important;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+body, button {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+button {
+  border-radius: 0 !important;
+  box-shadow: 0 3px 0 black !important;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+.field {
+  width: 100% !important;
+}
+
+input {
+  border-radius: 0 !important;  
+  box-shadow: 0 3px 0 black !important;
+}
+
+.ui.list.list>.item:hover {
+  transform: translateY(-1px)
+}
+
+.ui.list.list>.item .description {
+  color: white !important;
+}
+
+.ui.list.list>.item .header {
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 100 !important;
+  color: white !important;
+}
+
+.ui.container {
+  color: white;
+  line-height: 1.3;
+  font-size: 25px;
+  font-family: 'Mate', serif !important;
+  font-weight: 100 !important;
+}
+
+.ui.header.tag {
+  color: white;
+  line-height: 1.3;
+  font-size: 25px;
+  font-family: 'Mate', serif !important;
+  font-weight: 100 !important;
+}
+
+.ui.header {
+  color: white;
+  font-weight: 100 !important;
+}
+
+.ui.medium.header {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.ui.huge.header { 
+  color: white;
+  font-size: 42px;
+  font-weight: 100 !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#root {
+  height: 100%;
 }

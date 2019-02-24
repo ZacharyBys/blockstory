@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import SnowStorm from 'react-snowstorm';
 import { getWeb3, getStoryBook, getStories, getStory, getAccount, addNewStory, contributeToStory, getContributors } from "./utils/Web3Util";
 
 import 'semantic-ui-css/semantic.min.css'
+import './App.css'
 
+import Landing from './components/Landing';
 import Stories from './components/Stories'
 import Story from './components/Story';
 
@@ -59,17 +62,21 @@ class App extends Component {
 
     if (storyBook) {
       return (
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/stories" render={(props) => <Stories 
-              getStories={() => getStories(storyBook)} 
-              addNewStory={(title) => addNewStory(storyBook, title, account)}
-              getContributors={() => getContributors(storyBook)}/>}/>
-            <Route path="/stories/:id" render={(props) => <Story {...props} 
-              refreshStory={(storyId) => getStory(storyBook, storyId)}
-              contributeToStory={(storyId, contribution) => contributeToStory(storyBook, storyId, contribution, account)}/> }/>}/>
-          </Switch>
-        </BrowserRouter>
+        <div style={{ height: '100%' }}>
+            <SnowStorm flakesMaxActive={88} flakeWidth={12} flakeHeight={12} followMouse={false} />
+          <BrowserRouter>
+            <Switch>
+              <Route exact path="/" component={Landing}/>
+              <Route exact path="/stories" render={(props) => <Stories 
+                getStories={() => getStories(storyBook)} 
+                addNewStory={(title) => addNewStory(storyBook, title, account)}
+                getContributors={() => getContributors(storyBook)}/>}/>
+              <Route path="/stories/:id" render={(props) => <Story {...props} 
+                getStory={(storyId) => getStory(storyBook, storyId)}
+                contributeToStory={(storyId, contribution) => contributeToStory(storyBook, storyId, contribution, account)}/> }/>}/>
+            </Switch>
+          </BrowserRouter>
+        </div>
       )
     }
 
