@@ -65,8 +65,16 @@ export const getContributors = async (storyBook) => {
     contributors = [...contributors, { address: contributorAddress[0], contributions: contributions[0].words[0]}]
   }
 
-  contributors = [...new Set(contributors)]
-  return await contributors;
+  var ids = []
+  var uniqueContributors = []
+  contributors.forEach(function(contributor){
+    if (!ids.includes(contributor.address)) {
+      ids.push(contributor.address);
+      uniqueContributors.push(contributor);
+    }
+  });
+
+  return await uniqueContributors;
 }
 
 export const getStory = async (storyBook, storyId) => {
