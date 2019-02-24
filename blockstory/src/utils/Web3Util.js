@@ -67,10 +67,13 @@ export const getContributors = async (storyBook) => {
 
   var ids = []
   var uniqueContributors = []
+  let num = 0
   contributors.forEach(function(contributor){
     if (!ids.includes(contributor.address)) {
       ids.push(contributor.address);
+      contributor.num = num;
       uniqueContributors.push(contributor);
+      num++;
     }
   });
 

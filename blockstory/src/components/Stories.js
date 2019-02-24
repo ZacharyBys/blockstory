@@ -35,7 +35,7 @@ class Stories extends React.Component {
                 </Header>
                 <List>
                     {
-                        contributors.map((contributor) => <Contributor account={contributor.address} contributions={contributor.contributions} />)
+                        contributors.map((contributor) => <Contributor account={contributor.address} contributions={contributor.contributions} num={contributor.num}/>)
                     }
                 </List>
             </div>
