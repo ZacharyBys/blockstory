@@ -33,8 +33,8 @@ contract StoryBook {
     }
 
     constructor() public {
-        addStory("Story 1");
-        addStory("Story 2");
+        addStory("The Grand Blockchain");
+        addStory("L'Histoire de la Blockchain");
     }
 
     function contributeToStory(uint _storyId, string memory _text) public {
