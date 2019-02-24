@@ -24,22 +24,27 @@ class Story extends React.Component {
     handleSubmit = () => {
         const { story, contribution } = this.state;
         this.setState({ formDisabled: true }, async () => {
-            await this.props.contributeToStory(story.id, contribution);
-            let newStory = await this.props.getStory(story.id);
-    
-            this.setState({ story: newStory }, () => window.location.reload());
-        })
-        await this.sendToTwist()
+            try {
+                await this.props.contributeToStory(story.id, contribution);
+                let newStory = await this.props.getStory(story.id);
+                this.setState({ story: newStory }, async () => {
+                    await this.sendToTwist(contribution);
+                    window.location.reload()
+                });
+            } catch (error) {
+                this.setState({ formDisabled: false })
+            }
+        });
     }
 
     resetForm = () => {
         this.setState({ contribution: '' })
     }
 
-    async sendToTwist() {
+    async sendToTwist(contribution) {
         const { story } = this.state;
         console.log(story.body)
-        fetch('http://127.0.0.1:5000/' + encodeURIComponent(722580) + '/' + encodeURIComponent(story.body), {
+        await fetch('http://127.0.0.1:5000/' + encodeURIComponent(722580) + '/' + encodeURIComponent(`${story.body} ${contribution}`), {
             method: 'GET',
             mode: 'no-cors',
         })
@@ -49,8 +54,9 @@ class Story extends React.Component {
         const { story, contribution, loading, formDisabled } = this.state;
 
         if (loading) {
-            return <div style={{ width: '60%', margin: '2em auto' }}>
+            return <div style={{ width: '60%', margin: '4em auto' }}>
                 <Placeholder>
+                    <Placeholder.Line/>
                     <Placeholder.Line/>
                     <Placeholder.Line/>
                 </Placeholder>
