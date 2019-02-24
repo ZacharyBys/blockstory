@@ -110,9 +110,12 @@ class Stories extends React.Component {
                     }
                 </List>
                 <NewStoryForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} value={contribution}/>
-                <Header size="medium">
+                <Header style={{ fontSize: '22px' }}>
                     Top Contributors
                 </Header>
+                {
+                    contributors.length === 0 && <Header>There aren't any contributors yet :(</Header>
+                }
                 <List>
                     {
                         contributors.map((contributor) => <Contributor 

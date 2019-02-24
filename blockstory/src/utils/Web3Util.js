@@ -44,7 +44,7 @@ export const addNewStory = async (storyBook, title, account) => {
 
 export const getStoryBook = async (web3) => {
   // web3.eth.defaultAccount = web3.accounts[0];
-  return await web3.contract(StoryBook.abi).at('0x80dD49D5B0ac2Ed59C0900f035B0B88A8711ae26');
+  return await web3.contract(StoryBook.abi).at('0xDDfC357fDD1797fDac072508Ae6ec8239AC25657');
 }
 
 export const getStories = async (storyBook) => {

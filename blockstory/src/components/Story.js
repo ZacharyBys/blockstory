@@ -50,6 +50,9 @@ class Story extends React.Component {
         return (
             <div style={{ width: '60%', margin: '2em auto' }}>
                 <Header size="huge">{story.title}</Header>
+                {
+                    story.body.length === 0 && <Container>Begin the story!</Container>
+                }
                 <Container style={{ 
                     wordWrap: 'break-word',
                     margin: '1em',
