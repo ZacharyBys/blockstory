@@ -2,12 +2,15 @@ import React from 'react';
 import StoryPreview from './StoryPreview';
 import Contributor from './Contributor';
 
+import NewStoryForm from './NewStoryForm';
+
 import { List, Header } from 'semantic-ui-react';
 
 class Stories extends React.Component {
     state = {
         stories: [],
         contributors: [],
+        newStory: '',
     }
 
     async componentDidMount() {
@@ -16,6 +19,20 @@ class Stories extends React.Component {
         console.log(contributors)
         console.log(stories)
         this.setState({ stories, contributors });
+    }
+
+    handleChange = (e, { name, value }) => this.setState({ [name]: value })
+
+    handleSubmit = async () => {
+        const { newStory } = this.state;
+        console.log(newStory)
+        await this.props.addNewStory(newStory);
+        this.resetForm()
+        window.location.reload();
+    }
+
+    resetForm = () => {
+        this.setState({ newStory: '' })
     }
 
     render() {
@@ -38,6 +55,7 @@ class Stories extends React.Component {
                         contributors.map((contributor) => <Contributor account={contributor.address} contributions={contributor.contributions} num={contributor.num}/>)
                     }
                 </List>
+                <NewStoryForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} value={contribution}/>
             </div>
         )
     }
