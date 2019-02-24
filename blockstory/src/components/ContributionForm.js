@@ -9,7 +9,7 @@ const ContributionForm = (props) => {
                 name="contribution"
                 value={props.value}
                 onChange={props.handleChange}/>
-                <Button type="submit" content='Submit!'/>
+                <Button type="submit" content='Submit!' disabled={props.disabled} loading={props.disabled}/>
         </Form>
     )
 }
