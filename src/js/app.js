@@ -40,12 +40,26 @@ App = {
     App.contracts.StoryBook.deployed().then(function(instance) {
       return instance.contributeToStory(storyId, storyText, { from: App.account });
     }).then(function(result) {
-      // Wait for votes to update
+      // Wait for stories to update
       $("#content").hide();
       $("#loader").show();
     }).catch(function(err) {
       console.error(err);
     });
+  },
+
+  addStory: function() {
+    var storyName = $('#storyName').val();
+    
+    App.contracts.StoryBook.deployed().then(function(instance) {
+      return instance.addNewStory(storyName, { from: App.account });
+    }).then(function(result) {
+      // Wait for stories to update
+      $("#content").hide();
+      $("#loader").show();
+    }).catch(function(err) {
+      console.error(err);
+    })
   },
 
   listenForEvents: function() {
