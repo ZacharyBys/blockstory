@@ -4,13 +4,14 @@ import Contributor from './Contributor';
 
 import NewStoryForm from './NewStoryForm';
 
-import { List, Header } from 'semantic-ui-react';
+import { List, Header, Placeholder } from 'semantic-ui-react';
 
 class Stories extends React.Component {
     state = {
         stories: [],
         contributors: [],
         newStory: '',
+        loading: true,
     }
 
     async componentDidMount() {
@@ -18,7 +19,7 @@ class Stories extends React.Component {
         const contributors = await this.props.getContributors();
         console.log(contributors)
         console.log(stories)
-        this.setState({ stories, contributors });
+        this.setState({ stories, contributors, loading: false });
     }
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value })
@@ -36,7 +37,68 @@ class Stories extends React.Component {
     }
 
     render() {
-        const { stories, contribution, contributors } = this.state;
+        const { stories, contribution, contributors, loading } = this.state;
+
+        if (loading) {
+            return (
+                <div style={{ width: '60%', margin: '2em auto'}}>
+                    <Header size="huge">
+                        Stories
+                    </Header>
+                    <List>
+                        <List.Item>
+                            <Placeholder>
+                                <Placeholder.Line/>
+                                <Placeholder.Line/>
+                            </Placeholder>
+                        </List.Item>
+                        <List.Item>
+                            <Placeholder>
+                                <Placeholder.Line/>
+                                <Placeholder.Line/>
+                            </Placeholder>
+                        </List.Item>
+                        <List.Item>
+                            <Placeholder>
+                                <Placeholder.Line/>
+                                <Placeholder.Line/>
+                            </Placeholder>
+                        </List.Item>
+                        <List.Item>
+                            <Placeholder>
+                                <Placeholder.Line/>
+                                <Placeholder.Line/>
+                            </Placeholder>
+                        </List.Item>
+                    </List>
+                    <NewStoryForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} value={contribution}/>
+                    <Header size="medium">
+                        Top Contributors
+                    </Header> 
+                    <List>
+                        <List.Item>
+                            <Placeholder>
+                                <Placeholder.Line size="small"/>    
+                                <Placeholder.Line/>
+                            </Placeholder>
+                        </List.Item>
+                        <List.Item>
+                            <Placeholder>
+                            <Placeholder.Line size="small"/>
+                                <Placeholder.Line/>
+                            </Placeholder>
+                        </List.Item>
+                        <List.Item>
+                            <Placeholder>
+                                <Placeholder.Line size="small"/>
+                                <Placeholder.Line/>
+                            </Placeholder>
+                        </List.Item>
+                    </List>       
+                </div>
+            )
+        }
+
         return (
             <div style={{ width: '60%', margin: '2em auto'}}>
                 <Header size="huge">
@@ -47,6 +109,7 @@ class Stories extends React.Component {
                         stories.map((story) => <StoryPreview key={story.id} story={story} characters={story.body.length}/>)
                     }
                 </List>
+                <NewStoryForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} value={contribution}/>
                 <Header size="medium">
                     Top Contributors
                 </Header>
@@ -60,7 +123,6 @@ class Stories extends React.Component {
                         )
                     }
                 </List>
-                <NewStoryForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} value={contribution}/>
             </div>
         )
     }
