@@ -13,6 +13,9 @@ contract StoryBook {
 
     mapping(address => uint) public contributors;
 
+    mapping (uint => address) public contributorsMap;
+    uint public contributorsCount;
+
     uint public storiesCount;
 
     event contributeEvent (
@@ -22,6 +25,11 @@ contract StoryBook {
     function addStory (string memory _name) private {
         storiesCount++;
         stories[storiesCount] = Story(storiesCount, _name, "");
+    }
+
+    function addContributor (address _contributor) private {
+        contributorsCount++;
+        contributorsMap[contributorsCount] = _contributor;
     }
 
     constructor() public {
@@ -42,6 +50,7 @@ contract StoryBook {
         );
 
         contributors[msg.sender] ++;
+        addContributor(msg.sender);
 
         string memory newString = strConcat(stories[_storyId].body, _text);
         stories[_storyId].body = strConcat(newString, " ");

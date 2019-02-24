@@ -59,6 +59,32 @@ export const getStories = async (storyBook) => {
   return await stories;
 }
 
+export const getContributors = async (storyBook) => {
+  let numContributors = await storyBook.contributorsCount();
+  numContributors = numContributors[0].words[0]
+  let contributors = []
+  for (let index = 1; index <= numContributors; index++) {
+    const contributorAddress = await storyBook.contributorsMap(index);
+    const contributions = await storyBook.contributors(contributorAddress[0]);
+
+    contributors = [...contributors, { address: contributorAddress[0], contributions: contributions[0].words[0]}]
+  }
+
+  var ids = []
+  var uniqueContributors = []
+  let num = 0
+  contributors.forEach(function(contributor){
+    if (!ids.includes(contributor.address)) {
+      ids.push(contributor.address);
+      contributor.num = num;
+      uniqueContributors.push(contributor);
+      num++;
+    }
+  });
+
+  return await uniqueContributors;
+}
+
 export const getStory = async (storyBook, storyId) => {
   const story = await storyBook.stories(storyId);
   return await { id: story.id.words[0], title: story[1], body: story[2] } 
