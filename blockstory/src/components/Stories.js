@@ -52,7 +52,12 @@ class Stories extends React.Component {
                 </Header>
                 <List>
                     {
-                        contributors.map((contributor) => <Contributor account={contributor.address} contributions={contributor.contributions} num={contributor.num}/>)
+                        contributors.map((contributor) => <Contributor 
+                            key={contributor.address} 
+                            account={contributor.address} 
+                            contributions={contributor.contributions} 
+                            num={contributor.num}/>
+                        )
                     }
                 </List>
                 <NewStoryForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} value={contribution}/>
