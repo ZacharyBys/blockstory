@@ -84,7 +84,7 @@ class Stories extends React.Component {
                         </List.Item>
                         <List.Item>
                             <Placeholder>
-                            <Placeholder.Line size="small"/>
+                                <Placeholder.Line size="small"/>
                                 <Placeholder.Line/>
                             </Placeholder>
                         </List.Item>

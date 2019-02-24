@@ -50,7 +50,12 @@ class Story extends React.Component {
         return (
             <div style={{ width: '60%', margin: '2em auto' }}>
                 <Header size="huge">{story.title}</Header>
-                <Container style={{ wordWrap: 'break-word', margin: '1em' }}>{story.body}</Container>
+                <Container className=".tan" style={{ 
+                    wordWrap: 'break-word',
+                    margin: '1em',
+                    padding: '1em',
+                    borderRadius: '2px',
+                }}>{story.body}</Container>
                 <ContributionForm disabled={loading || formDisabled} handleSubmit={this.handleSubmit} handleChange={this.handleChange} value={contribution}/>
             </div>
         )
