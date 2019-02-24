@@ -66,7 +66,7 @@ class App extends Component {
               addNewStory={(title) => addNewStory(storyBook, title, account)}
               getContributors={() => getContributors(storyBook)}/>}/>
             <Route path="/stories/:id" render={(props) => <Story {...props} 
-              refreshStory={(storyId) => getStory(storyBook, storyId)}
+              getStory={(storyId) => getStory(storyBook, storyId)}
               contributeToStory={(storyId, contribution) => contributeToStory(storyBook, storyId, contribution, account)}/> }/>}/>
           </Switch>
         </BrowserRouter>
