@@ -1,64 +1,113 @@
 App = {
   web3Provider: null,
   contracts: {},
+  account: '0x0',
 
-  init: async function() {
-    // Load pets.
-    $.getJSON('../pets.json', function(data) {
-      var petsRow = $('#petsRow');
-      var petTemplate = $('#petTemplate');
-
-      for (i = 0; i < data.length; i ++) {
-        petTemplate.find('.panel-title').text(data[i].name);
-        petTemplate.find('img').attr('src', data[i].picture);
-        petTemplate.find('.pet-breed').text(data[i].breed);
-        petTemplate.find('.pet-age').text(data[i].age);
-        petTemplate.find('.pet-location').text(data[i].location);
-        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
-
-        petsRow.append(petTemplate.html());
-      }
-    });
-
-    return await App.initWeb3();
+  init: function() {
+    return App.initWeb3();
   },
 
-  initWeb3: async function() {
-    /*
-     * Replace me...
-     */
-
+  initWeb3: function() {
+    if (typeof web3 !== 'undefined') {
+      // If a web3 instance is already provided by Meta Mask.
+      App.web3Provider = web3.currentProvider;
+      web3 = new Web3(web3.currentProvider);
+    } else {
+      // Specify default instance if no web3 instance provided
+      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+      web3 = new Web3(App.web3Provider);
+    }
     return App.initContract();
   },
 
   initContract: function() {
-    /*
-     * Replace me...
-     */
+    $.getJSON("StoryBook.json", function(storybook) {
+      // Instantiate a new truffle contract from the artifact
+      App.contracts.StoryBook = TruffleContract(storybook);
+      // Connect provider to interact with contract
+      App.contracts.StoryBook.setProvider(App.web3Provider);
 
-    return App.bindEvents();
+      App.listenForEvents();
+
+      return App.render();
+    });
   },
 
-  bindEvents: function() {
-    $(document).on('click', '.btn-adopt', App.handleAdopt);
+  contribute: function() {
+    var storyId = $('#storySelect').val();
+    var storyText = $('#storyText').val();
+
+    App.contracts.StoryBook.deployed().then(function(instance) {
+      return instance.contributeToStory(storyId, storyText, { from: App.account });
+    }).then(function(result) {
+      // Wait for votes to update
+      $("#content").hide();
+      $("#loader").show();
+    }).catch(function(err) {
+      console.error(err);
+    });
   },
 
-  markAdopted: function(adopters, account) {
-    /*
-     * Replace me...
-     */
+  listenForEvents: function() {
+    App.contracts.StoryBook.deployed().then(function(instance) {
+      instance.contributeEvent({}, {
+        fromBlock: 0,
+        toBlock: 'latest'
+      }).watch(function(error, event) {
+        console.log("event triggered", event)
+        // Reload when a new vote is recorded
+        App.render();
+      });
+    });
   },
 
-  handleAdopt: function(event) {
-    event.preventDefault();
+  render: function() {
+    var storybookInstance;
+    var loader = $("#loader");
+    var content = $("#content");
 
-    var petId = parseInt($(event.target).data('id'));
+    loader.show();
+    content.hide();
 
-    /*
-     * Replace me...
-     */
+    // Load account data
+    web3.eth.getCoinbase(function(err, account) {
+      if (err === null) {
+        App.account = account;
+        $("#accountAddress").html("Your Account: " + account);
+      }
+    });
+
+    // Load contract data
+    App.contracts.StoryBook.deployed().then(function(instance) {
+      storybookInstance = instance;
+      return storybookInstance.storiesCount();
+    }).then(function(storiesCount) {
+      var storiesResults = $("#storiesResults");
+      storiesResults.empty();
+
+      var storySelect = $("#storySelect");
+      storySelect.empty();
+
+      for (var i = 1; i <= storiesCount; i++) {
+        storybookInstance.stories(i).then(function(story) {
+          var id = story[0];
+          var name = story[1];
+          var body = story[2];
+
+          var storyTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + body + "</td></tr>"
+          storiesResults.append(storyTemplate);
+
+          var storyOption = "<option value='" + id + "' >" + name + "</ option>"
+          storySelect.append(storyOption);
+        });
+      }
+
+      loader.hide();
+      content.show();
+    }).catch(function(error) {
+      console.warn(error);
+    });
   }
-
 };
 
 $(function() {
