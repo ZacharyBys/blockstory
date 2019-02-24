@@ -1,39 +1,31 @@
 import React from 'react';
-import Story from './Story';
+import StoryPreview from './StoryPreview';
 
-import { Table } from 'semantic-ui-react';
+import { List, Header } from 'semantic-ui-react';
 
 class Stories extends React.Component {
     state = {
         stories: [],
     }
 
-    componentDidMount() {
-        this.setState({ 
-            stories: [
-                {
-                    id: 1,
-                    title: 'The Big Hike',
-                }
-            ],
-        });
+    async componentDidMount() {
+        const stories = await this.props.getStories();
+        this.setState({ stories });
     }
 
     render() {
-        const { stories } = this.state;
+        const { stories, contribution } = this.state;
         return (
-            <Table celled>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>Story</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>    
-                <Table.Body>
+            <div style={{ width: '60%', margin: '2em auto'}}>
+                <Header size="huge">
+                    Stories
+                </Header>
+                <List divided relaxed>
                     {
-                        stories.map((story) => <Story key={story.id} story={story}/>)
+                        stories.map((story) => <StoryPreview key={story.id} story={story}/>)
                     }
-                </Table.Body>
-            </Table>
+                </List>
+            </div>
         )
     }
 }
