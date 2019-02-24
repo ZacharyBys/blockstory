@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import { getWeb3, getStoryBook, getStories, getStory, getAccount, contributeToStory } from "./utils/Web3Util";
+import { getWeb3, getStoryBook, getStories, getStory, getAccount, contributeToStory, getContributors } from "./utils/Web3Util";
 
 import 'semantic-ui-css/semantic.min.css'
 
@@ -60,7 +60,7 @@ class App extends Component {
       return (
         <BrowserRouter>
           <Switch>
-            <Route exact path="/stories" render={(props) => <Stories getStories={() => getStories(storyBook)} />}/>
+            <Route exact path="/stories" render={(props) => <Stories getStories={() => getStories(storyBook)} getContributors={() => getContributors(storyBook)}/>}/>
 
             <Route path="/stories/:id" render={(props) => <Story {...props} 
               refreshStory={(storyId) => getStory(storyBook, storyId)}

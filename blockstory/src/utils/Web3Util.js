@@ -39,7 +39,7 @@ export const getWeb3 = () =>
 
 export const getStoryBook = async (web3) => {
   // web3.eth.defaultAccount = web3.accounts[0];
-  return await web3.contract(StoryBook.abi).at('0x5D9cC46689d7E67DD3Ec72d1B186A08Dfb023f5d');
+  return await web3.contract(StoryBook.abi).at('0xa6FD2f1E64Ce750cF7f25DE62263e93E29FCe038');
 }
 
 export const getStories = async (storyBook) => {
@@ -52,6 +52,21 @@ export const getStories = async (storyBook) => {
   }
   
   return await stories;
+}
+
+export const getContributors = async (storyBook) => {
+  let numContributors = await storyBook.contributorsCount();
+  numContributors = numContributors[0].words[0]
+  let contributors = []
+  for (let index = 1; index <= numContributors; index++) {
+    const contributorAddress = await storyBook.contributorsMap(index);
+    const contributions = await storyBook.contributors(contributorAddress[0]);
+
+    contributors = [...contributors, { address: contributorAddress[0], contributions: contributions[0].words[0]}]
+  }
+
+  contributors = [...new Set(contributors)]
+  return await contributors;
 }
 
 export const getStory = async (storyBook, storyId) => {
