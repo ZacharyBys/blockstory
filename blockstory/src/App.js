@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import { getWeb3, getStoryBook, getStories, getStory, contributeToStory } from "./utils/Web3Util";
+import { getWeb3, getStoryBook, getStories, getStory, getAccount, contributeToStory } from "./utils/Web3Util";
 
 import 'semantic-ui-css/semantic.min.css'
 
@@ -23,19 +23,24 @@ class App extends Component {
     try {
       // Get network provider and web3 instance.
       const web3 = await getWeb3();
-
       // // Use web3 to get the user's accounts.
-      const account = await web3.eth.getCoinbase();
-
+      const account = await web3.coinbase();
       // // Get the contract instance.
       const storyBook = await getStoryBook(web3);
+
+      storyBook.contributeEvent({}, {
+        fromBlock: 0,
+        toBlock: 'latest'
+      }).watch(function(error, event) {
+
+      });
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
       this.setState({ 
         web3, 
-        account, 
         storyBook,
+        account
       })
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -46,8 +51,10 @@ class App extends Component {
     }
   };
 
+
+
   render() {
-    const { storyBook, account } = this.state;
+    const { web3, storyBook, account } = this.state;
 
     if (storyBook) {
       return (

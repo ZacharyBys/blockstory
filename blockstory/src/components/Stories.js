@@ -10,6 +10,7 @@ class Stories extends React.Component {
 
     async componentDidMount() {
         const stories = await this.props.getStories();
+        console.log(stories)
         this.setState({ stories });
     }
 

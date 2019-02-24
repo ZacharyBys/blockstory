@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { Header } from 'semantic-ui-react';
+import { Header, Container } from 'semantic-ui-react';
 import ContributionForm from './ContributionForm';
 
 class Story extends React.Component {
@@ -30,11 +30,11 @@ class Story extends React.Component {
         if (!story) {
             return <Redirect to="/stories"/>
         }
-    
+
         return (
             <div style={{ width: '60%', margin: '2em auto' }}>
                 <Header size="huge">{story.title}</Header>
-                <Header>{story.body}</Header>
+                <Container style={{ wordWrap: 'break-word', margin: '1em' }}>{story.body}</Container>
                 <ContributionForm handleSubmit={this.handleSubmit} handleChange={this.handleChange} value={contribution}/>
             </div>
         )
