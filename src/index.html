@@ -43,6 +43,15 @@
               <button type="submit" class="btn btn-primary">Contribute</button>
               <hr />
             </form>
+            <form onSubmit="App.addStory(); return false;">
+              <div class="form-group">
+                <label for="storyName">Add New Story</label>
+                <input class="form-control" id="storyName">
+                </input>
+              </div>
+              <button type="submit" class="btn btn-primary">Add Story</button>
+              <hr />
+            </form>
             <hr/>
             <p id="accountAddress" class="text-center"></p>
           </div>
