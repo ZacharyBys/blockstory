@@ -37,9 +37,14 @@ export const getWeb3 = () =>
     });
   });
 
+export const addNewStory = async (storyBook, title, account) => {
+  console.log(account)
+  return await storyBook.addNewStory(title, { from: account })
+}
+
 export const getStoryBook = async (web3) => {
   // web3.eth.defaultAccount = web3.accounts[0];
-  return await web3.contract(StoryBook.abi).at('0x5D9cC46689d7E67DD3Ec72d1B186A08Dfb023f5d');
+  return await web3.contract(StoryBook.abi).at('0x2dCd3a200B9a3Ed4F852b23C9b3012b39481ab16');
 }
 
 export const getStories = async (storyBook) => {

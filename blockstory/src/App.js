@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import { getWeb3, getStoryBook, getStories, getStory, getAccount, contributeToStory } from "./utils/Web3Util";
+import { getWeb3, getStoryBook, getStories, getStory, addNewStory, contributeToStory } from "./utils/Web3Util";
 
 import 'semantic-ui-css/semantic.min.css'
 
@@ -25,6 +25,7 @@ class App extends Component {
       const web3 = await getWeb3();
       // // Use web3 to get the user's accounts.
       const account = await web3.coinbase();
+      console.log(account)
       // // Get the contract instance.
       const storyBook = await getStoryBook(web3);
 
@@ -60,8 +61,9 @@ class App extends Component {
       return (
         <BrowserRouter>
           <Switch>
-            <Route exact path="/stories" render={(props) => <Stories getStories={() => getStories(storyBook)} />}/>
-
+            <Route exact path="/stories" render={(props) => <Stories 
+              getStories={() => getStories(storyBook)} 
+              addNewStory={(title) => addNewStory(storyBook, title, account)}/>}/>
             <Route path="/stories/:id" render={(props) => <Story {...props} 
               refreshStory={(storyId) => getStory(storyBook, storyId)}
               contributeToStory={(storyId, contribution) => contributeToStory(storyBook, storyId, contribution, account)}/> }/>}/>
