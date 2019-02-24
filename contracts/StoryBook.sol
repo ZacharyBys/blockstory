@@ -49,6 +49,23 @@ contract StoryBook {
         emit contributeEvent(_storyId);
     }
 
+    function addNewStory(string memory _name) public {
+        bool containsProfanity = validateProfanity(_name);
+        require(
+            containsProfanity == false,
+            "Story Name Contains Profanity"
+        );
+
+        require(
+            bytes(_name).length > 0,
+            "Did Not Provide Story Name"
+        );
+
+        addStory(_name);
+
+        emit contributeEvent(storiesCount);
+    }
+
     function strConcat(string memory _a, string memory _b) private returns (string memory){
         bytes memory _ba = bytes(_a);
         bytes memory _bb = bytes(_b);
